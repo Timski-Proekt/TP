@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  # Backend service
+  backend:
+    build:
+      context: ./backend # Path to the Dockerfile for the backend service
+    ports:
+      - "8080:8080" # Expose port 8080 on the host and forward to port 8080 on the container
+    depends_on:
+      - db # Ensure the database service is started before the backend service
+    env_file: # Specify the .env file for environment variables
+      - .env.dev
+    networks:
+      - backend-network # Connect to the backend network
+
+  # PostgreSQL database service
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432" # Expose port 5432 on the host and forward to port 5432 on the container
+    env_file: # Specify the .env file for environment variables
+      - .env.dev
+    networks:
+      - backend-network # Connect to the backend network
+
+  dummy-data:
+    build:
+      context: ./db # Path to the directory containing the Dockerfile for the Python service
+    depends_on:
+      - db # Ensure the database service is started before the Python script service
+      - backend
+    env_file: # Specify the .env file for environment variables
+      - .env.dev
+    networks:
+      - backend-network # Connect to the backend network
+
+networks:
+  backend-network: # Custom network for communication between backend and database services
