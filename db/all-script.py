@@ -1,5 +1,6 @@
 import csv
 import psycopg2
+import os
 
 def insert_data_from_csv_driving_school(csv_file, conn):
     try:
@@ -31,7 +32,7 @@ def insert_data_from_csv_appointments(csv_file, conn):
                     row
                 )
         conn.commit()
-        print("Data inserted successfully.")
+        print("Data  inserted successfully.")
     except (Exception, psycopg2.Error) as error:
         print("Error inserting data:", error)
 
@@ -67,20 +68,20 @@ def insert_data_from_csv_app_user(csv_file, conn):
         print("Error inserting data:", error)
 
 try:
-    # Connect to PostgreSQL database
+    # Connect to PostgreSQL database using environment variables
     conn = psycopg2.connect(
-        dbname="postgres",
-        user="postgres",
-        password="password",
-        host="localhost",
+        dbname=os.getenv("POSTGRES_DB"),
+        user=os.getenv("POSTGRES_USER"),
+        password=os.getenv("POSTGRES_PASSWORD"),
+        host="db",
         port="5432"
     )
 
     # Specify the path to your CSV files for each table
-    csv_file_driving_school = "\\Users\\User\\Desktop\\projects\\proekt\\timski\\db\\drivingSchool.csv"
-    csv_file_location = "\\Users\\User\\Desktop\\projects\\proekt\\timski\\db\\location.csv"
-    csv_file_users = "\\Users\\User\\Desktop\\projects\\proekt\\timski\\db\\users.csv"
-    csv_file_appointments = "\\Users\\User\\Desktop\\projects\\proekt\\timski\\db\\appointments.csv"
+    csv_file_driving_school = "./drivingSchool.csv"
+    csv_file_location = "./location.csv"
+    csv_file_users = "./users.csv"
+    csv_file_appointments = "./appointments.csv"
 
     # Call the functions to insert data into each table
     insert_data_from_csv_driving_school(csv_file_driving_school, conn)
