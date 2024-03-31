@@ -1,13 +1,179 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root{
+  --white: #ffff;
+  --darkBlue: #00008B;
+  --mainYellow:#F6A801;
+  --mainBlue:#0d305c;
+}
+/* Header */
+#nav-list{
+  display: flex;
+  width: 100%;
+}
+#nav-list li{
+  display: flex;
+  align-items: center;
+}
+#nav-list li:not(:first-child,:last-child){
+  justify-content: center;
+  padding: 15px;
+}
+#nav-list li:last-child{
+  margin-left: auto;
+  padding-right: 35px;
+}
+/* Home page*/
+#homeMainDiv {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--mainBlue);
+
+}
+#homeMainDiv :nth-child(1){
+  margin-left: -40px ;
+}
+#homeMainDiv :nth-child(2){
+  text-align: end;
+
+}
+#homeMainDiv :nth-child(2) h1{
+  display: block;
+  margin-top: -120px;
+  padding-right: 35px;
+  font-size: 46px;
+}
+#homeMainDiv :nth-child(2) h2{
+  display: block;
+  font-size: 25px;
+  font-weight: 400;
+  padding-bottom: 70px;
+  padding-right: 35px;
+
+}
+#homeMainDiv :nth-child(2) p{
+  padding-right: 35px;
+}
+#homeMainDiv :nth-child(2) a{
+  display: block;
+  width: 300px;
+  height: 40px;
+  padding-top:7px ;
+  margin-left: 230px;
+  border-radius: 6px;
+  background-color: var(--mainYellow);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  color: var(--white);
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+
+}
+/*Rules page*/
+#rulesMainDiv h1{
+  display: block;
+  width: 500px;
+  padding-bottom: 20px;
+  margin-bottom: 40px;
+  margin-left: 35px;
+  border-style: solid;
+  border-color: var(--darkBlue);
+  border-width:0 0 1px 0;
+  color:var(--darkBlue);
+
+}
+#rulesMainDiv section{
+  display: flex;
+  align-items: center;
+  margin: 0 35px 0 35px;
+  padding-bottom:80px;
+  color: var(--darkBlue);
+}
+#rulesMainDiv .paragraphs{
+  font-size: 15px;
+}
+#rulesMainDiv .imgDivR{
+  padding-left: 50px;
+}
+#rulesMainDiv .imgDivL{
+  padding-right: 50px;
+}
+#rulesMainDiv .linkToRules{
+  color: var(--mainYellow);
+}
+#rulesMainDiv .paragraphHeader{
+  font-size: 20px;
+}
+#rulesMainDiv .linkToRules span{
+  padding-right: 5px;
+
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+
+/* Footer */
+footer{
+  width: 100%;
+  padding:100px;
+  background-color: var(--mainBlue);
+  color: var(--white);
+  font-size: 16px;
+  font-weight: 400;
+
+}
+#footerMainDiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#footerMainDiv div h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--mainYellow);
+  padding: 10px;
+}
+#footerMainDiv div ul{
+  padding-left: 0;
+}
+#footerMainDiv div ul li{
+  list-style-type: none;
+}
+
+#footerMainDiv div .contactList li{
+  padding: 10px;
+
+}
+#footerMainDiv div .contactList li span {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  padding-right: 20px;
+}
+#footerMainDiv div .contactList li p{
+  display: inline;
+  padding-left: 5px;
+  margin-bottom: 0;
+}
+
+#footerMainDiv div .otherServicesList{
+  padding-bottom: 10px;
+}
+
+#footerMainDiv div .otherServicesList li{
+  display: inline;
+  width: 40px;
+  padding-right: 10px;
+
+}
+#footerMainDiv div  .otherServicesList li a{
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  padding: 7px;
+  background-image: url("img/elipse.png");
+  background-repeat: no-repeat;
+  text-decoration: none;
+  color: var(--white);
+  text-align: center;
+
 }
