@@ -35,5 +35,11 @@ services:
     networks:
       - backend-network # Connect to the backend network
 
+  frontend:
+    container_name: frontend
+    build: ./frontend-app
+    ports:
+      - '3000:3000'
+
 networks:
   backend-network: # Custom network for communication between backend and database services
