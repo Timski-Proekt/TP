@@ -29,11 +29,15 @@ services:
       context: ./db # Path to the directory containing the Dockerfile for the Python service
     depends_on:
       - db # Ensure the database service is started before the Python script service
-      - backend
+#      - backend
     env_file: # Specify the .env file for environment variables
       - .env.dev
     networks:
       - backend-network # Connect to the backend network
-
+  frontend:
+    container_name: frontend
+    build: ./frontend-app
+    ports:
+      - '3000:3000'
 networks:
   backend-network: # Custom network for communication between backend and database services
