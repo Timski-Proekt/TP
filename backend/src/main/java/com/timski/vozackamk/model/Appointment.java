@@ -22,6 +22,9 @@ public class Appointment {
     Boolean isBooked;
     LocalDateTime dateTime;
 
+    @Enumerated(EnumType.STRING)
+    Category category;
+
     // Relations
     @ManyToOne
     Location location;

@@ -17,9 +17,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -79,7 +79,7 @@ public class AppointmentServiceImplementation implements AppointmentService {
     @Override
     public List<Appointment> findAllOnDate(LocalDate localDate) {
         List<Appointment> appointments = findAll().stream()
-                .filter(appointment -> appointment.getDateTime().equals(localDate))
+                .filter(appointment -> appointment.getDateTime().toLocalDate().equals(localDate))
                 .collect(Collectors.toList());
         return appointments;
     }
@@ -150,6 +150,19 @@ public class AppointmentServiceImplementation implements AppointmentService {
         appointmentRepository.save(appointment);
 
         return appointment;
+    }
+
+    @Override
+    public List<LocalTime> findAvailableAppointmentTime(LocalDate localDate) {
+        List<Appointment> appointments = this.findAllOnDate(localDate);
+        Set<LocalTime> availableAppointments = new HashSet<>();
+        for(Appointment a : appointments){
+            if(!a.getIsBooked()){
+                LocalTime time = a.getDateTime().toLocalTime().truncatedTo(ChronoUnit.MINUTES);
+                availableAppointments.add(time);
+            }
+        }
+        return new ArrayList<>(availableAppointments);
     }
 
 }

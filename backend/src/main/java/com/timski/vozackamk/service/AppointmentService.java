@@ -8,6 +8,7 @@ import com.timski.vozackamk.model.dto.PickAppointmentDto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,10 +27,7 @@ public interface AppointmentService {
     List<Appointment> findAllAfterDateTime(LocalDateTime localDateTime);
     List<Appointment> findAllBeforeDateTime(LocalDateTime localDateTime);
     List<Appointment> findAllAtLocation(LocationId locationId);
-
-
     Appointment pickAppointment(PickAppointmentDto pickAppointmentDto);
-
-
+    List<LocalTime> findAvailableAppointmentTime(LocalDate localDate);
 
 }
