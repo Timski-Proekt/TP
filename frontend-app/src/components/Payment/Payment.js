@@ -83,7 +83,7 @@ function Payment() {
                     </div>
 
                     <br />
-                    <button type="submit" className="button">Submit Payment</button>
+                    <a href="#" id="payment-button">Изврши плаќање</a>
                 </form>
                 <div id="info" className="column right-column">
                     <h5><b>Информации за полагањето:</b></h5><br/>

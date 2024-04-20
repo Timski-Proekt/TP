@@ -177,3 +177,72 @@ footer{
   text-align: center;
 
 }
+
+/*Appointments page*/
+
+.div-container {
+  overflow: hidden;
+  padding: 30px;
+}
+
+.text {
+  color: var(--mainBlue);
+}
+
+.column {
+  width: 50%;
+  box-sizing: border-box;
+  float: left;
+}
+
+.column > * {
+  margin: 0 auto; /* Center the content horizontally within the column */
+}
+
+.bubble-container {
+  display: flex;
+  align-items: center;
+}
+
+.bubble {
+  margin: 5px;
+  padding: 10px;
+  border-radius: 30px;
+  border: 1px solid var(--mainBlue);
+  color: var(--mainBlue);
+}
+
+.selected {
+  background-color: var(--mainBlue);
+  color: white;
+}
+
+.bubble-container > * {
+  margin-right: 10px;
+}
+
+.button{
+  display: block;
+  padding:5px ;
+  width: 50%;
+  border-radius: 6px;
+  background-color: var(--mainYellow);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 6px -2px, rgba(0, 0, 0, 0.3) 0px 3px 5px -3px;
+  color: var(--white);
+  text-decoration: none;
+  text-align: center;
+}
+
+/*Payment*/
+#payment-button{
+  display: block;
+  margin-left: -1px;
+  padding:5px ;
+  width: 50%;
+  border-radius: 6px;
+  background-color: var(--mainYellow);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 6px -2px, rgba(0, 0, 0, 0.3) 0px 3px 5px -3px;
+  color: var(--white);
+  text-decoration: none;
+  text-align: center;
+}

@@ -56,10 +56,11 @@ function Appointment(){
             <h1>Закажи термин за полагање</h1>
             <section>
                 <p>Избери датум и пополни ги полињата за полагањето што сакаш да го закажеш</p>
-                <div className="column left-column">
+                <div className="column left-column calendar-container">
                     <Calendar
                         onChange={handleDateChange}
                         value={selectedDate}
+                        style={{ boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', borderRadius: '8px', padding: '20px' }}
                     />
                 </div>
                 <div className="column right-column">
@@ -80,7 +81,7 @@ function Appointment(){
                         <TimeSelection onSelectTime={handleSelectTime} />
                     </div>
                     <div>
-                        <button className="button">Избери термин</button>
+                        <a href="#" className="button">Избери термин</a>
                     </div>
                 </div>
             </section>
