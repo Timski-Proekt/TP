@@ -48,7 +48,7 @@ public class AppointmentServiceImplementation implements AppointmentService {
     @Override
     public Appointment findById(UUID uuid) {
         try {
-            return appointmentRepository.findById(uuid).orElseThrow(()->new AppointmentNotFoundException(uuid));
+            return appointmentRepository.findById(uuid).orElseThrow(() -> new AppointmentNotFoundException(uuid));
         } catch (AppointmentNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -131,7 +131,6 @@ public class AppointmentServiceImplementation implements AppointmentService {
         appointment.setTransaction(transaction);
 
 
-
         // Set user and booking status
         appointment.setUser(appUser);
         appointment.setIsBooked(true);
@@ -156,13 +155,18 @@ public class AppointmentServiceImplementation implements AppointmentService {
     public List<LocalTime> findAvailableAppointmentTime(LocalDate localDate) {
         List<Appointment> appointments = this.findAllOnDate(localDate);
         Set<LocalTime> availableAppointments = new HashSet<>();
-        for(Appointment a : appointments){
-            if(!a.getIsBooked()){
+        for (Appointment a : appointments) {
+            if (!a.getIsBooked()) {
                 LocalTime time = a.getDateTime().toLocalTime().truncatedTo(ChronoUnit.MINUTES);
                 availableAppointments.add(time);
             }
         }
         return new ArrayList<>(availableAppointments);
+    }
+
+    @Override
+    public List<Category> findAllCategories() {
+        return Arrays.asList(Category.values());
     }
 
 }

@@ -2,6 +2,7 @@ package com.timski.vozackamk.web.controller;
 
 
 import com.timski.vozackamk.model.Appointment;
+import com.timski.vozackamk.model.Category;
 import com.timski.vozackamk.model.dto.AppointmentDto;
 import com.timski.vozackamk.model.dto.PickAppointmentDto;
 import com.timski.vozackamk.service.AppointmentService;
@@ -23,6 +24,11 @@ public class AppointmentController {
     @GetMapping
     public List<Appointment> getAllAppointments() {
         return appointmentService.findAll();
+    }
+
+    @GetMapping("/categories")
+    public List<Category> getAllCategories() {
+        return appointmentService.findAllCategories();
     }
 
     @PostMapping

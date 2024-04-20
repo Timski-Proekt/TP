@@ -98,5 +98,4 @@ public class DataInitializer {
             appointmentRepository.save(appointment);
         }
     }
-
 }
