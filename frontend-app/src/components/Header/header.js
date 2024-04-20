@@ -9,13 +9,13 @@ function Header(){
                 <div className="collapse navbar-collapse">
                     <ul className="navbar-nav me-auto" id="nav-list">
                         <li className="nav-item">
-                            <img src={logoImg} alt="logo img" height="105.75px" width="109px"/>
+                            <img src={logoImg} alt="logo img" height="105.75px" width="109px" href="http://localhost:3000"/>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">Закажи полагање</a>
+                            <a className="nav-link" href="http://localhost:3000/appointment">Закажи полагање</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">Правила за полагање</a>
+                            <a className="nav-link" href="http://localhost:3000/pravila">Правила за полагање</a>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="#">За нас</a>

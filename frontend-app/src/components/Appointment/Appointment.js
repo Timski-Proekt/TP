@@ -11,7 +11,7 @@ import LocationSelection from "./Selections/LocationSelection";
 
 function Appointment(){
 
-    const [selectedDate, setDate] = useState(new Date()); // State to store selected date
+    const [selectedDate, setDate] = useState(new Date());
     const [selectedType, setSelectedType] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
@@ -58,8 +58,8 @@ function Appointment(){
                 <p>Избери датум и пополни ги полињата за полагањето што сакаш да го закажеш</p>
                 <div className="column left-column calendar-container">
                     <Calendar
-                        onChange={handleDateChange}
                         value={selectedDate}
+                        onClickDay={handleDateChange}
                         style={{ boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', borderRadius: '8px', padding: '20px' }}
                     />
                 </div>
@@ -81,7 +81,7 @@ function Appointment(){
                         <TimeSelection onSelectTime={handleSelectTime} />
                     </div>
                     <div>
-                        <a href="#" className="button">Избери термин</a>
+                        <a href="http://localhost:3000/payment" className="button">Избери термин</a>
                     </div>
                 </div>
             </section>
