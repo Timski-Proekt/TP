@@ -6,43 +6,47 @@ import appService from "../../repository/appRepository";
 import Footer from "../Footer/footer";
 import Home from "../StaticPages/home";
 import Rules from "../StaticPages/rules";
+import Appointment from "../Appointment/Appointment";
+import Payment from "../Payment/Payment"
 
 class App extends Component{
-  constructor(props) {
-    super(props);
-    this.state = {
-      drivingSchools: []
+    constructor(props) {
+        super(props);
+        this.state = {
+            drivingSchools: []
+        }
+
     }
 
-  }
+    render() {
+        return (
+            <BrowserRouter>
+                <Header/>
+                <main>
+                    <Routes>
+                        <Route  path={"/"} element={<Home/>} />
+                        <Route  path={"/pravila"} element={<Rules/>} />
+                        <Route path={"/drivingschools"} element={<DrivingSchools drivingSchools={this.state.drivingSchools}/>}/>
+                        <Route path={"/appointment"} element={<Appointment/>} />
+                        <Route path={"/payment"} element={<Payment/>} />
+                    </Routes>
+                </main>
+                <Footer/>
+            </BrowserRouter>
 
-  render() {
-    return (
-        <BrowserRouter>
-          <Header/>
-          <main>
-              <Routes>
-                <Route  path={"/"} element={<Home/>} />
-                <Route  path={"/pravila"} element={<Rules/>} />
-                <Route path={"/drivingschools"} element={<DrivingSchools drivingSchools={this.state.drivingSchools}/>}/>
-              </Routes>
-          </main>
-            <Footer/>
-        </BrowserRouter>
+        );
+    }
 
-    );
-  }
-
-  loadSchools = () => {
-      appService.fetchSchools().then((data) =>{
-          this.setState({
-              drivingSchools: data.data
-          })
-      });
-  }
-  componentDidMount() {
-    this.loadSchools();
-  }
+    loadSchools = () => {
+        appService.fetchSchools().then((data) =>{
+            this.setState({
+                drivingSchools: data.data
+            })
+        });
+    }
+    componentDidMount() {
+        this.loadSchools();
+    }
 }
 
 export default App;
