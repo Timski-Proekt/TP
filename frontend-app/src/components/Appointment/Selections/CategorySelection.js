@@ -28,7 +28,7 @@ function CategorySelection({ onSelectCategory }) {
     };
 
     const handleSelectCategory = (categoryId) => {
-        onSelectCategory(categoryId);
+        onSelectCategory(categoryId.label);
     };
 
     return <BubbleContainer options={categories} onSelect={handleSelectCategory} />;

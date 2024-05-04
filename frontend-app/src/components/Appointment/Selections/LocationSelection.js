@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-function LocationComponent() {
+function LocationComponent({ onSelectLocation}) {
     const [locations, setLocations] = useState([]);
-    const [selectedLocation, setSelectedLocation] = useState('');
 
     useEffect(() => {
         fetchLocations();
@@ -19,19 +18,16 @@ function LocationComponent() {
     };
 
     const handleLocationChange = (event) => {
-        setSelectedLocation(event.target.value);
+        const selectedLocation = event.target.value;
+        onSelectLocation(selectedLocation);
     };
 
     return (
         <div style={{ margin: '15px' }}>
-            <select value={selectedLocation} onChange={handleLocationChange}>
+            <select onChange={handleLocationChange}>
                 <option value="">Избери</option>
                 {locations.map((location, index) => (
-                    <option
-                        id={location.id}
-                        key = {index}
-                        className={selectedLocation === location.id ? 'selected' : ''}
-                    >
+                    <option key={index} value={location.name}>
                         {location.name}
                     </option>
                 ))}

@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css'; // Import calendar styles (optional)
-//import { useHistory } from 'react-router-dom';
+import 'react-calendar/dist/Calendar.css';
+import { useNavigate } from 'react-router-dom';
 
 import TypeSelection from '../Appointment/Selections/TypeSelection';
 import CategorySelection from '../Appointment/Selections/CategorySelection';
 import TimeSelection from '../Appointment/Selections/TimeSelection';
-import button from "bootstrap/js/src/button";
 import LocationSelection from "./Selections/LocationSelection";
 
 function Appointment(){
@@ -17,28 +16,34 @@ function Appointment(){
     const [selectedTime, setSelectedTime] = useState(null);
     const [selectedLocation, setSelectedLocation] = useState(null);
 
-    //const history = useHistory();
-    //history.push('/appointment-form', { appointmentData });
+    const history = useNavigate();
+
+    useEffect(() => {
+        console.log(selectedDate)
+        console.log(selectedType);
+        console.log(selectedCategory);
+        console.log(selectedLocation);
+    }, [selectedDate, selectedType, selectedCategory, selectedLocation]);
+
     const handleDateChange = (newDate) => {
         setDate(newDate);
     };
 
-    const handleSelectType = (typeId) => {
-        setSelectedType(typeId);
+    const handleSelectType = (type) => {
+        setSelectedType(type);
     };
 
-    const handleSelectCategory = (categoryId) => {
-        setSelectedCategory(categoryId);
-        // Perform any other actions based on category selection, such as loading times
+    const handleSelectCategory = (category) => {
+        setSelectedCategory(category);
+        console.log(category);
     };
 
-    const handleSelectTime = (timeId) => {
-        setSelectedTime(timeId);
-        // Perform any other actions based on time selection
+    const handleSelectTime = (time) => {
+        setSelectedTime(time);
     };
 
-    const handleLocationChange = (event) => {
-        setSelectedLocation(event.target.value);
+    const handleLocationChange = (location) => {
+        setSelectedLocation(location);
     };
 
     const handleSubmit = () => {
@@ -49,6 +54,9 @@ function Appointment(){
             time: selectedTime,
             category: selectedCategory
         };
+
+        const queryString = new URLSearchParams(appointmentData).toString();
+        history(`/payment?${queryString}`);
     }
 
     return(
@@ -81,7 +89,7 @@ function Appointment(){
                         <TimeSelection onSelectTime={handleSelectTime} />
                     </div>
                     <div>
-                        <a href="http://localhost:3000/payment" className="button">Избери термин</a>
+                        <a onClick={handleSubmit} className="button">Избери термин</a>
                     </div>
                 </div>
             </section>

@@ -10,7 +10,7 @@ function TypeSelection({ onSelectType }) {
     ];
 
     const handleSelectType = (typeId) => {
-        onSelectType(typeId);
+        onSelectType(typeId.id);
     };
 
     return <BubbleContainer options={types} onSelect={handleSelectType} />;

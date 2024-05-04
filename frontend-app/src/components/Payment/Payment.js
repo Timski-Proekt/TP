@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 function Payment() {
     const [formData, setFormData] = useState({
@@ -7,6 +8,20 @@ function Payment() {
         expiryDate: '',
         ccv: ''
     });
+    const [appointmentData, setAppointmentData] = useState({
+        date: "",
+        type: "",
+        location: "",
+        time: "",
+        category: ""
+    });
+    const location = useLocation();
+
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+        const appointmentData = Object.fromEntries(searchParams.entries());
+        setAppointmentData(appointmentData);
+    }, [location.search]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -37,7 +52,7 @@ function Payment() {
                         <input
                             type="text"
                             name="name"
-                            value={formData.name}
+                            value={formData.name || ""}
                             onChange={handleChange}
                             required
                             style={{ width: '350px' }}
@@ -49,7 +64,7 @@ function Payment() {
                         <input
                             type="text"
                             name="cardNumber"
-                            value={formData.cardNumber}
+                            value={formData.cardNumber || ""}
                             onChange={handleChange}
                             required
                             style={{ width: '350px' }}
@@ -62,7 +77,7 @@ function Payment() {
                             <input
                                 type="text"
                                 name="expiryDate"
-                                value={formData.expiryDate}
+                                value={formData.expiryDate || ""}
                                 onChange={handleChange}
                                 required
                                 style={{ width: '150px' }}
@@ -74,7 +89,7 @@ function Payment() {
                             <input
                                 type="text"
                                 name="ccv"
-                                value={formData.ccv}
+                                value={formData.ccv || ""}
                                 onChange={handleChange}
                                 required
                                 style={{ width: '150px' }}
@@ -97,23 +112,23 @@ function Payment() {
                     </div>
                     <div className="payment-info-container">
                         <p><b>Тип на полагање: </b></p>
-                        <p>Tip na polaganje</p>
+                        <p>{appointmentData.type}</p>
                     </div>
                     <div className="payment-info-container">
                         <p><b>Локација: </b></p>
-                        <p>Lokacija</p>
+                        <p>{appointmentData.location}</p>
                     </div>
                     <div className="payment-info-container">
                         <p><b>Категорија: </b></p>
-                        <p>Kategorija</p>
+                        <p>{appointmentData.category}</p>
                     </div>
                     <div className="payment-info-container">
                         <p><b>Датум: </b></p>
-                        <p>Datum</p>
+                        <p>{appointmentData.date}</p>
                     </div>
                     <div className="payment-info-container">
                         <p><b>Време: </b></p>
-                        <p>Vreme</p>
+                        <p>{appointmentData.time}</p>
                     </div>
                 </div>
             </section>
