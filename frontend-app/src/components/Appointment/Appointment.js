@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
+import axios from "axios";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 import TypeSelection from '../Appointment/Selections/TypeSelection';
 import CategorySelection from '../Appointment/Selections/CategorySelection';
@@ -9,53 +10,119 @@ import TimeSelection from '../Appointment/Selections/TimeSelection';
 import LocationSelection from "./Selections/LocationSelection";
 
 function Appointment(){
-
-    const [selectedDate, setDate] = useState(new Date());
-    const [selectedType, setSelectedType] = useState(null);
-    const [selectedCategory, setSelectedCategory] = useState(null);
-    const [selectedTime, setSelectedTime] = useState(null);
-    const [selectedLocation, setSelectedLocation] = useState(null);
+    const [selectedAppointment, setSelectedAppointment] = useState({
+        date: null,
+        type: null,
+        category: null,
+        time: null,
+        location: null,
+        appointmentId: null
+    });
+    const [availableAppointments, setAvailableAppointments] = useState([]);
 
     const history = useNavigate();
 
     useEffect(() => {
-        console.log(selectedDate)
-        console.log(selectedType);
-        console.log(selectedCategory);
-        console.log(selectedLocation);
-    }, [selectedDate, selectedType, selectedCategory, selectedLocation]);
+        console.log(selectedAppointment);
+        const fetchAppointments = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/appointments');
+                const allAppointments = response.data;
+
+                const filteredAppointments = filterAppointments(allAppointments);
+                const availableTimeSlotAppointments = filteredAppointments.map(appointment =>
+                    createAppointmentTimeSlotObject(appointment)
+                );
+
+                setAvailableAppointments(availableTimeSlotAppointments);
+            } catch (error) {
+                console.error('Error fetching appointments:', error);
+            }
+        };
+        fetchAppointments();
+    }, [selectedAppointment]);
+
+    const filterAppointments = (allAppointments) => {
+        return allAppointments.filter(appointment => {
+            if (selectedAppointment.date && selectedAppointment.type && selectedAppointment.location
+                && selectedAppointment.category && !appointment.isBooked) {
+                return (
+                    appointment.location.name === selectedAppointment.location &&
+                    appointment.location.appointmentType === selectedAppointment.type &&
+                    appointment.category === selectedAppointment.category &&
+                    appointment.dateTime.substring(0, 10) === selectedAppointment.date.substring(0, 10)
+                );
+            }
+            return false;
+        });
+    };
+
+    function createAppointmentTimeSlotObject(appointment) {
+        const dateTimeString = appointment.dateTime;
+        const formattedTime = dateTimeString.substring(11, 16);
+        return {
+            appointmentId: appointment.uuid,
+            id: formattedTime,
+            label: formattedTime
+        };
+    }
+
+    const formatDate = (newDate) => {
+        const inputDate = new Date(newDate);
+        const year = inputDate.getFullYear();
+        const month = inputDate.getMonth() + 1;
+        const day = inputDate.getDate();
+        return `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
+    };
 
     const handleDateChange = (newDate) => {
-        setDate(newDate);
+        const formattedDate = formatDate(newDate);
+        setSelectedAppointment({
+            date: formattedDate,
+            type: null,
+            category: null,
+            time: null,
+            location: null,
+            appointmentId: null
+        });
     };
 
-    const handleSelectType = (type) => {
-        setSelectedType(type);
+    const handleSelectType = (newType) => {
+        setSelectedAppointment(prevState => ({
+            ...prevState,
+            type: newType
+        }));
     };
 
-    const handleSelectCategory = (category) => {
-        setSelectedCategory(category);
-        console.log(category);
+    const handleSelectCategory = (newCategory) => {
+        setSelectedAppointment(prevState => ({
+            ...prevState,
+            category: newCategory
+        }));
     };
 
-    const handleSelectTime = (time) => {
-        setSelectedTime(time);
+    const handleLocationChange = (newLocation) => {
+        setSelectedAppointment(prevState => ({
+            ...prevState,
+            location: newLocation
+        }));
     };
 
-    const handleLocationChange = (location) => {
-        setSelectedLocation(location);
+    const handleSelectTime = (newTime) => {
+        setSelectedAppointment(prevState => ({
+            ...prevState,
+            time: newTime
+        }));
     };
 
     const handleSubmit = () => {
-        const appointmentData = {
-            date: selectedDate,
-            type: selectedType,
-            location: selectedLocation,
-            time: selectedTime,
-            category: selectedCategory
-        };
+        availableAppointments.forEach(appointment => {
+            if (appointment.id === selectedAppointment.time) {
+                selectedAppointment.appointmentId = appointment.appointmentId;
+            }
+        });
 
-        const queryString = new URLSearchParams(appointmentData).toString();
+        const queryString = new URLSearchParams(selectedAppointment).toString();
         history(`/payment?${queryString}`);
     }
 
@@ -66,7 +133,7 @@ function Appointment(){
                 <p>Избери датум и пополни ги полињата за полагањето што сакаш да го закажеш</p>
                 <div className="column left-column calendar-container">
                     <Calendar
-                        value={selectedDate}
+                        value={selectedAppointment.date ? new Date(selectedAppointment.date) : null}
                         onClickDay={handleDateChange}
                         style={{ boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', borderRadius: '8px', padding: '20px' }}
                     />
@@ -86,7 +153,9 @@ function Appointment(){
                     </div>
                     <div className="bubble-container">
                         <p><b>Време на полагање: </b></p>
-                        <TimeSelection onSelectTime={handleSelectTime} />
+                        <TimeSelection
+                            availableAppointments = {availableAppointments}
+                            onSelectTime={handleSelectTime} />
                     </div>
                     <div>
                         <a onClick={handleSubmit} className="button">Избери термин</a>

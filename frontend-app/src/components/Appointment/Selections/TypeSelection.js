@@ -9,8 +9,8 @@ function TypeSelection({ onSelectType }) {
         { id: "PRAKTICHNO", label: "ПРАКТИЧНО" }
     ];
 
-    const handleSelectType = (typeId) => {
-        onSelectType(typeId.id);
+    const handleSelectType = (type) => {
+        onSelectType(type);
     };
 
     return <BubbleContainer options={types} onSelect={handleSelectType} />;

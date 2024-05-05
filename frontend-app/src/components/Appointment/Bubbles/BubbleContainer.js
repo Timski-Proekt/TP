@@ -1,13 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function Bubble({ id, label, onClick, isSelected }) {
-    const handleClick = () => {
-        onClick(id);
-    };
     return (
         <div
             className={`bubble ${isSelected ? 'selected' : ''}`}
-            onClick={handleClick}
+            onClick={onClick}
             style={{ margin: '5px' }}
             id={id}
         >
@@ -17,15 +14,22 @@ function Bubble({ id, label, onClick, isSelected }) {
 }
 
 function BubbleContainer({ options, onSelect }) {
+    const [selectedBubbleId, setSelectedBubbleId] = useState(null);
+
+    const handleBubbleClick = (id) => {
+        setSelectedBubbleId(id);
+        onSelect(id);
+    };
+
     return (
         <div className="bubble-container">
             {options.map((option, index) => (
                 <Bubble
+                    key={index}
                     id={option.id}
                     label={option.label}
-                    onClick={() => onSelect(option)}
-                    isSelected={option.isSelected}
-                    key={index}
+                    onClick={() => handleBubbleClick(option.id)}
+                    isSelected={selectedBubbleId === option.id }
                 />
             ))}
         </div>

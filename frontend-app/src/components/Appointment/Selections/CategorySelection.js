@@ -14,8 +14,8 @@ function CategorySelection({ onSelectCategory }) {
             const response = await fetch('http://localhost:3000/appointments/categories');
             const data = await response.json();
 
-            const transformedCategories = data.map((category, index) => ({
-                id: `${index}`,
+            const transformedCategories = data.map((category) => ({
+                id: category,
                 label: category,
             }));
 
@@ -27,8 +27,8 @@ function CategorySelection({ onSelectCategory }) {
         }
     };
 
-    const handleSelectCategory = (categoryId) => {
-        onSelectCategory(categoryId.label);
+    const handleSelectCategory = (categoryLabel) => {
+        onSelectCategory(categoryLabel);
     };
 
     return <BubbleContainer options={categories} onSelect={handleSelectCategory} />;

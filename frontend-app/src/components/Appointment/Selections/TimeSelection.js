@@ -2,14 +2,12 @@
 import React from 'react';
 import BubbleContainer from '../Bubbles/BubbleContainer';
 
-function TimeSelection({ onSelectTime }) {
-  const times = [1,2,3];
-
+function TimeSelection({ availableAppointments, onSelectTime }) {
   const handleSelectTime = (timeId) => {
     onSelectTime(timeId);
   };
 
-  return <BubbleContainer options={times} onSelect={handleSelectTime} />;
+  return <BubbleContainer options={availableAppointments} onSelect={handleSelectTime} />;
 }
 
 export default TimeSelection;

@@ -45,7 +45,7 @@ function Payment() {
         <div className="div-container text">
             <h1>Форма за плаќање</h1>
             <section>
-                <form className="column left-column form" onSubmit={handleSubmit}>
+                <form className="column left-column form card" onSubmit={handleSubmit}>
                     <p>Внесете ги своите информации за наплата</p><br/>
                     <label>
                         Name on Card:<br/>
@@ -96,39 +96,52 @@ function Payment() {
                             />
                         </label>
                     </div>
-
-                    <br />
+                    <br/>
+                    <p>Сума на наплата: suma den.</p>
+                    <br/>
                     <a href="#" id="payment-button">Изврши плаќање</a>
                 </form>
                 <div id="info" className="column right-column">
-                    <h5><b>Информации за полагањето:</b></h5><br/>
-                    <div className="payment-info-container">
-                        <p><b>Име и презиме: </b></p>
-                        <p>Ime i prezime</p>
-                    </div>
-                    <div className="payment-info-container">
-                        <p><b>Емаил: </b></p>
-                        <p>Email</p>
-                    </div>
-                    <div className="payment-info-container">
-                        <p><b>Тип на полагање: </b></p>
-                        <p>{appointmentData.type}</p>
-                    </div>
-                    <div className="payment-info-container">
-                        <p><b>Локација: </b></p>
-                        <p>{appointmentData.location}</p>
-                    </div>
-                    <div className="payment-info-container">
-                        <p><b>Категорија: </b></p>
-                        <p>{appointmentData.category}</p>
-                    </div>
-                    <div className="payment-info-container">
-                        <p><b>Датум: </b></p>
-                        <p>{appointmentData.date}</p>
-                    </div>
-                    <div className="payment-info-container">
-                        <p><b>Време: </b></p>
-                        <p>{appointmentData.time}</p>
+                    <h5><b>Информации за полагањето:</b></h5>
+                    <div className="info-columns">
+                        <div className="payment-info-column">
+                            <div className="payment-info-container">
+                                <p><b>Име и презиме: </b></p>
+                                <p>Ime i prezime</p>
+                            </div>
+                            <div className="payment-info-container">
+                                <p><b>Емаил: </b></p>
+                                <p>Email</p>
+                            </div>
+                            <div className="payment-info-container">
+                                <p><b>Код на полагање: </b></p>
+                                <p>{appointmentData.appointmentId}</p>
+                            </div>
+                        </div>
+                        <div className="payment-info-column">
+                            <div className="payment-info-container">
+                                <p><b>Тип на полагање: </b></p>
+                                <p>{appointmentData.type}</p>
+                            </div>
+                            <div className="payment-info-container">
+                                <p><b>Категорија: </b></p>
+                                <p>{appointmentData.category}</p>
+                            </div>
+                            <div className="payment-info-container">
+                                <p><b>Време: </b></p>
+                                <p>{appointmentData.time}</p>
+                            </div>
+                        </div>
+                        <div className="payment-info-column">
+                            <div className="payment-info-container">
+                                <p><b>Локација: </b></p>
+                                <p>{appointmentData.location}</p>
+                            </div>
+                            <div className="payment-info-container">
+                                <p><b>Датум: </b></p>
+                                <p>{appointmentData.date}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
