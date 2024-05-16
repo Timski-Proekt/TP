@@ -18,4 +18,5 @@ public class AppointmentDto {
     LocalDateTime dateTime;
     String appUserEmbg;
     Integer negativePoints;
+    Double price;
 }

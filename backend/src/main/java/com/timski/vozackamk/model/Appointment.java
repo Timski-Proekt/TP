@@ -1,8 +1,6 @@
 package com.timski.vozackamk.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +19,7 @@ public class Appointment {
     Integer negativePoints;
     Boolean isBooked;
     LocalDateTime dateTime;
+    Double price;
 
     @Enumerated(EnumType.STRING)
     Category category;
@@ -38,9 +37,9 @@ public class Appointment {
     public Appointment(LocalDateTime dateTime, Location location) {
         this.dateTime = dateTime;
         this.location = location;
-
         this.user = null;
         this.isBooked = false;
         this.negativePoints = null;
+        this.price = 0.0;
     }
 }

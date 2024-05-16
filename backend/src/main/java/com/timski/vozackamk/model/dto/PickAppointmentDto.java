@@ -12,8 +12,6 @@ import java.util.UUID;
 public class PickAppointmentDto {
     String appUserEmbg;
     UUID appointmentUuid;
-
     String cardName;
-    int sum;
-
+    Double sum;
 }

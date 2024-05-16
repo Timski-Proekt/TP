@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,10 +17,7 @@ public class RegistrationAppUserDto {
     String lastName;
     String email;
     String password;
-
     LocalDate birthDate;
-
-
     String phone;
     DrivingSchool drivingSchool;
 }

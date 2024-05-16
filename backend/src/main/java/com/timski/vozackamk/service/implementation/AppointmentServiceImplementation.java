@@ -114,7 +114,7 @@ public class AppointmentServiceImplementation implements AppointmentService {
         String embg = pickAppointmentDto.getAppUserEmbg();
         UUID uuid = pickAppointmentDto.getAppointmentUuid();
         String cardName = pickAppointmentDto.getCardName();
-        int sum = pickAppointmentDto.getSum();
+        Double sum = pickAppointmentDto.getSum();
 
         // Retrieve the AppUser
         AppUser appUser = appUserService.findById(embg);

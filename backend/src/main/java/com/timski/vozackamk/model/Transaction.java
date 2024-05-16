@@ -19,7 +19,7 @@ public class Transaction {
 
     String cardName;
 
-    int sum;
+    Double sum;
 
     // Relations
     @JsonIgnore
@@ -27,7 +27,7 @@ public class Transaction {
     Appointment appointment;
 
 
-    public Transaction(String cardName, int sum, Appointment appointment) {
+    public Transaction(String cardName, Double sum, Appointment appointment) {
         this.cardName = cardName;
         this.sum = sum;
         this.appointment = appointment;
