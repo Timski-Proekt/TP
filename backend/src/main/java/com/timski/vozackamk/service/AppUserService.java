@@ -11,7 +11,7 @@ import com.timski.vozackamk.model.exceptions.AppUserExistsException;
 import java.util.List;
 import java.util.UUID;
 
-public interface AppUserService {
+public interface  AppUserService {
     List<AppUser> findAll();
     AppUser findById(String embg);
 

@@ -1,6 +1,7 @@
 package com.timski.vozackamk.service;
 
 
+import com.timski.vozackamk.model.AppUser;
 import com.timski.vozackamk.model.Appointment;
 import com.timski.vozackamk.model.Category;
 import com.timski.vozackamk.model.LocationId;
@@ -40,4 +41,5 @@ public interface AppointmentService {
     List<LocalTime> findAvailableAppointmentTime(LocalDate localDate);
 
     List<Category> findAllCategories();
+    List<Appointment> findAllAppointmentsByAppUser(String embg);
 }

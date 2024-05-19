@@ -5,6 +5,7 @@ import com.timski.vozackamk.model.Appointment;
 import com.timski.vozackamk.model.Category;
 import com.timski.vozackamk.model.dto.AppointmentDto;
 import com.timski.vozackamk.model.dto.PickAppointmentDto;
+import com.timski.vozackamk.service.AppUserService;
 import com.timski.vozackamk.service.AppointmentService;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,9 +17,11 @@ import java.util.List;
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
+    private final AppUserService appUserService;
 
-    public AppointmentController(AppointmentService appointmentService) {
+    public AppointmentController(AppointmentService appointmentService, AppUserService appUserService) {
         this.appointmentService = appointmentService;
+        this.appUserService = appUserService;
     }
 
     @GetMapping
@@ -26,6 +29,10 @@ public class AppointmentController {
         return appointmentService.findAll();
     }
 
+    @GetMapping("/{embg}")
+    public List<Appointment> getAllAppointmentsByAppUser(@PathVariable String embg) {
+        return appointmentService.findAllAppointmentsByAppUser(embg);
+    }
     @GetMapping("/categories")
     public List<Category> getAllCategories() {
         return appointmentService.findAllCategories();
@@ -40,4 +47,5 @@ public class AppointmentController {
     public void pickAppointment(@RequestBody PickAppointmentDto pickAppointmentDto) {
         appointmentService.pickAppointment(pickAppointmentDto);
     }
+
 }

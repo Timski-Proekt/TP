@@ -87,4 +87,5 @@ public class AppUserServiceImplementation implements AppUserService {
         appUserRepository.save(appUser);
     }
 
+
 }

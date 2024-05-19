@@ -138,6 +138,11 @@ public class AppointmentServiceImplementation implements AppointmentService {
         // Save the Transaction first
         transactionRepository.save(transaction);
 
+        List<Appointment> appointments = appUser.getAppointments();
+        appointments.add(appointment);
+        appUser.setAppointments(appointments);
+        appUserRepository.delete(appUser);
+        appUserRepository.save(appUser);
 
 //        List<Appointment> appointments = appUser.getAppointments();
 //        appointments.add(appointment);
@@ -167,6 +172,12 @@ public class AppointmentServiceImplementation implements AppointmentService {
     @Override
     public List<Category> findAllCategories() {
         return Arrays.asList(Category.values());
+    }
+
+    @Override
+    public List<Appointment> findAllAppointmentsByAppUser(String embg) {
+        AppUser appUser = appUserService.findById(embg);
+        return appointmentRepository.findAllByUser(appUser);
     }
 
 }
