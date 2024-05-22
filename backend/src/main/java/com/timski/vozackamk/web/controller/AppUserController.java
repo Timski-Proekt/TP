@@ -1,7 +1,6 @@
 package com.timski.vozackamk.web.controller;
 
 import com.timski.vozackamk.model.AppUser;
-import com.timski.vozackamk.model.Appointment;
 import com.timski.vozackamk.service.AppUserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +21,4 @@ public class AppUserController {
     public List<AppUser> getAllAppUsers() {
         return appUserService.findAll();
     }
-
-
 }

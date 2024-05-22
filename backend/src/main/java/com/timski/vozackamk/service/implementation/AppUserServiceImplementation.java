@@ -7,6 +7,8 @@ import com.timski.vozackamk.model.dto.LoginAppUserDto;
 import com.timski.vozackamk.model.dto.RegistrationAppUserDto;
 import com.timski.vozackamk.model.exceptions.AppUserExistsException;
 import com.timski.vozackamk.model.exceptions.AppUserNotFoundException;
+import com.timski.vozackamk.model.exceptions.InvalidArgumentsException;
+import com.timski.vozackamk.model.exceptions.InvalidUserCredentialsException;
 import com.timski.vozackamk.repository.AppUserRepository;
 import com.timski.vozackamk.service.AppUserService;
 import com.timski.vozackamk.service.AppointmentService;
@@ -32,7 +34,7 @@ public class AppUserServiceImplementation implements AppUserService {
     @Override
     public AppUser findById(String embg) {
         try {
-            return appUserRepository.findById(embg).orElseThrow(()-> new AppUserNotFoundException(embg));
+            return appUserRepository.findById(embg).orElseThrow(() -> new AppUserNotFoundException(embg));
         } catch (AppUserNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -40,7 +42,7 @@ public class AppUserServiceImplementation implements AppUserService {
 
     @Override
     public void register(RegistrationAppUserDto appUserDto) throws AppUserExistsException {
-        if(appUserRepository.findById(appUserDto.getEmbg()).isPresent()){
+        if (appUserRepository.findById(appUserDto.getEmbg()).isPresent()) {
             throw new AppUserExistsException(appUserDto.getEmbg());
         }
         AppUser appUser = new AppUser(
@@ -58,7 +60,11 @@ public class AppUserServiceImplementation implements AppUserService {
 
     @Override
     public void login(LoginAppUserDto appUserDto) {
-        // TODO Login to the system.
+        if (appUserDto.getEmail() == null || appUserDto.getEmail().isEmpty() || appUserDto.getPassword() == null || appUserDto.getPassword().isEmpty()) {
+            throw new InvalidArgumentsException();
+        }
+        AppUser appUser = appUserRepository.findByEmailAndPassword(appUserDto.getEmail(), appUserDto.getPassword());
+        if (appUser == null) throw new InvalidUserCredentialsException();
     }
 
     @Override
