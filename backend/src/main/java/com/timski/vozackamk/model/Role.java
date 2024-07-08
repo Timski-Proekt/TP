@@ -1,0 +1,5 @@
+package com.timski.vozackamk.model;
+
+public enum Role {
+    ROLE_USER, ROLE_ADMIN;
+}

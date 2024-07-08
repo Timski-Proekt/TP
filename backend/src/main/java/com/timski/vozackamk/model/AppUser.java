@@ -28,6 +28,9 @@ public class AppUser {
 
     String phone;
 
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
+
     // Relations
     @JsonIgnore
     @OneToMany(mappedBy = "user")

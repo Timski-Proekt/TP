@@ -2,27 +2,32 @@ package com.timski.vozackamk.service.implementation;
 
 import com.timski.vozackamk.model.AppUser;
 import com.timski.vozackamk.model.Appointment;
+import com.timski.vozackamk.model.DrivingSchool;
 import com.timski.vozackamk.model.dto.AppUserDto;
 import com.timski.vozackamk.model.dto.LoginAppUserDto;
 import com.timski.vozackamk.model.dto.RegistrationAppUserDto;
-import com.timski.vozackamk.model.exceptions.AppUserExistsException;
-import com.timski.vozackamk.model.exceptions.AppUserNotFoundException;
-import com.timski.vozackamk.model.exceptions.InvalidArgumentsException;
-import com.timski.vozackamk.model.exceptions.InvalidUserCredentialsException;
+import com.timski.vozackamk.model.exceptions.*;
 import com.timski.vozackamk.repository.AppUserRepository;
+import com.timski.vozackamk.repository.DrivingSchoolRepository;
 import com.timski.vozackamk.service.AppUserService;
 import com.timski.vozackamk.service.AppointmentService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public class AppUserServiceImplementation implements AppUserService {
     private final AppUserRepository appUserRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final DrivingSchoolRepository drivingSchoolRepository;
 
-    public AppUserServiceImplementation(AppUserRepository appUserRepository) {
+    public AppUserServiceImplementation(AppUserRepository appUserRepository, PasswordEncoder passwordEncoder, DrivingSchoolRepository drivingSchoolRepository) {
         this.appUserRepository = appUserRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.drivingSchoolRepository = drivingSchoolRepository;
     }
 
 
@@ -41,21 +46,27 @@ public class AppUserServiceImplementation implements AppUserService {
     }
 
     @Override
-    public void register(RegistrationAppUserDto appUserDto) throws AppUserExistsException {
+    public void register(RegistrationAppUserDto appUserDto) throws AppUserExistsException, DrivingSchoolNotFoundException {
         if (appUserRepository.findById(appUserDto.getEmbg()).isPresent()) {
             throw new AppUserExistsException(appUserDto.getEmbg());
         }
-        AppUser appUser = new AppUser(
-                appUserDto.getEmbg(),
-                appUserDto.getName(),
-                appUserDto.getLastName(),
-                appUserDto.getEmail(),
-                appUserDto.getPassword(),
-                appUserDto.getBirthDate(),
-                appUserDto.getPhone(),
-                appUserDto.getDrivingSchool()
-        );
-        appUserRepository.save(appUser);
+        DrivingSchool drivingSchool = this.drivingSchoolRepository.findById(appUserDto.getDrivingSchoolId())
+                .orElseThrow(() -> new DrivingSchoolNotFoundException(appUserDto.getDrivingSchoolId()));
+
+
+        AppUser user = new AppUser();
+        user.setName(appUserDto.getName());
+        user.setLastName(appUserDto.getLastName());
+        user.setEmail(appUserDto.getEmail());
+        user.setPassword(passwordEncoder.encode(appUserDto.getPassword()));
+        user.setEmbg(appUserDto.getEmbg());
+        user.setPhone(appUserDto.getPhone());
+        user.setBirthDate(appUserDto.getBirthDate());
+        user.setRole(appUserDto.getRole());
+        user.setDrivingSchool(drivingSchool);
+        user.setRegistrationDate(LocalDate.now());
+
+        appUserRepository.save(user);
     }
 
     @Override

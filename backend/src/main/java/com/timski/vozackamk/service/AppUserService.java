@@ -7,6 +7,7 @@ import com.timski.vozackamk.model.dto.AppointmentDto;
 import com.timski.vozackamk.model.dto.LoginAppUserDto;
 import com.timski.vozackamk.model.dto.RegistrationAppUserDto;
 import com.timski.vozackamk.model.exceptions.AppUserExistsException;
+import com.timski.vozackamk.model.exceptions.DrivingSchoolNotFoundException;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,7 +16,7 @@ public interface  AppUserService {
     List<AppUser> findAll();
     AppUser findById(String embg);
 
-    void register(RegistrationAppUserDto appUserDto) throws AppUserExistsException;
+    void register(RegistrationAppUserDto appUserDto) throws AppUserExistsException, DrivingSchoolNotFoundException;
     void login(LoginAppUserDto appUserDto);
 
     void update(String embg, AppUserDto appUserDto);

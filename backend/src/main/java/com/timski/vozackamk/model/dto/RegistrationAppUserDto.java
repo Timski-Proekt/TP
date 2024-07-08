@@ -1,11 +1,13 @@
 package com.timski.vozackamk.model.dto;
 
 import com.timski.vozackamk.model.DrivingSchool;
+import com.timski.vozackamk.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -19,5 +21,6 @@ public class RegistrationAppUserDto {
     String password;
     LocalDate birthDate;
     String phone;
-    DrivingSchool drivingSchool;
+    UUID drivingSchoolId;
+    Role role;
 }
