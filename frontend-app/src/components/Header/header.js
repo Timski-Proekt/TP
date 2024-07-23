@@ -1,7 +1,7 @@
 import React from "react";
 import logoImg from "../../img/logoImg.png"
 import profileIconImg from "../../img/profileIconImg.png"
-function Header(){
+function Header(props){
     return(
         <header>
 
@@ -21,7 +21,7 @@ function Header(){
                             <a className="nav-link" href="#">За нас</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#"><img src={profileIconImg} alt="profile img" height="45px" width="45px" /> </a>
+                            {props.userEmail && <p>{props.userEmail}</p>}<a className="nav-link" href="#"><img src={profileIconImg} alt="profile img" height="45px" width="45px" /> </a>
                         </li>
                     </ul>
                 </div>

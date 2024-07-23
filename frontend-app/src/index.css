@@ -1,8 +1,11 @@
 :root{
   --white: #ffff;
   --darkBlue: #00008B;
-  --mainYellow:#F6A801;
   --mainBlue:#0d305c;
+  --lightBlueLabel: #092c7e;
+  --mainYellow:#F6A801;
+  --lightGreyForm: #F5F5F5;
+
 }
 /* Header */
 #nav-list{
@@ -276,5 +279,166 @@ footer{
   flex-direction: column;
   align-items: center;
 }
+
+/*Registration page*/
+#registrationPage{
+  display: flex;
+  justify-content: center;
+}
+#registrationPage .container1Reg{
+  width: 50%;
+  padding-right: 100px;
+  padding-left: 100px;
+}
+#registrationPage div:first-child h1{
+  display: block;
+  padding-bottom: 30px;
+  text-decoration: underline;
+  color: var(--mainBlue);
+  text-align: center;
+}
+#registrationPage .container1Reg p{
+  text-align: center;
+  color: var(--darkBlue);
+}
+#registrationPage .container2Reg{
+  width: 50%;
+  padding-right: 100px;
+  padding-bottom: 100px;
+
+
+}
+
+#registrationPage .container2Reg h5{
+  display: block;
+
+  padding-bottom: 20px;
+  text-align: center;
+  color: var(--darkBlue);
+}
+
+#registrationForm {
+  padding: 30px 60px 30px 60px;
+  border-style: solid;
+  border-width: 3px;
+  border-radius: 6px;
+  border-color: var(--lightGreyForm);
+  background-color: var(--lightGreyForm);
+  box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+}
+#registrationForm .inputField{
+  border-color: var(--darkBlue);
+  border-width: 2px;
+}
+#registrationForm label{
+  color: var(--lightBlueLabel)
+}
+#registrationForm #fullname{
+  display: flex;
+  justify-content: space-between;
+}
+#registrationForm button{
+  border-style: none;
+  width: 500px;
+  padding: 7px;
+  margin-bottom: 7px ;
+  background: var(--mainBlue);
+  border-radius: 5px;
+  font-weight: bold;
+  color: var(--white);
+  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+
+}
+/*Login*/
+#loginPage{
+  display: flex;
+  padding-left: 100px;
+ 
+}
+
+#loginPage .container1Log,
+#loginPage .container2Log{
+  width: 50%;
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+
+#loginPage .container1Log .titleLog{
+  display: block;
+  width: 600px;
+  margin-top: -100px;
+  margin-bottom: 30px;
+  border-width: 0 0 3px 0;
+  border-color: var(--darkBlue);
+  border-style: solid;
+}
+
+#loginPage .container1Log h1{
+color: var(--darkBlue);
+}
+
+#loginForm{
+  width: 600px;
+  margin-left:-15px ;
+  padding: 30px 50px 30px 50px;
+  border-style: solid;
+  border-width: 3px;
+  border-radius: 6px;
+  border-color: var(--lightGreyForm);
+  background-color: var(--lightGreyForm);
+  box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+
+}
+
+#loginForm h5{
+  color: var(--darkBlue);
+  text-align: center;
+}
+#loginForm label{
+  color: var(--lightBlueLabel);
+}
+
+#loginForm .inputField{
+  border-width: 2px;
+  border-style: solid;
+  border-color: var(--darkBlue);
+}
+#loginForm a{
+   color: var(--mainYellow);
+}
+#loginForm p{
+  text-align: center;
+  color: var(--darkBlue);
+
+  
+}
+#loginForm button{
+  border-style: none;
+  width: 500px;
+  padding: 7px;
+  margin-bottom: 7px ;
+  background: var(--mainBlue);                          
+  border-radius: 5px;                                   
+  font-weight: bold;                                    
+  color: var(--white);
+  margin-top: 10px;                                     
+  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+}
+
+
+
+
+
+
+
+
+                                      
+
+
+
+
+
+
+
 
 
