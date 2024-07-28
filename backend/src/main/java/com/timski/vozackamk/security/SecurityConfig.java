@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .exceptionHandling((exception) -> exception.authenticationEntryPoint(authEntryPoint))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/auth/**", "/drivingschools").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout(logout -> logout

@@ -353,7 +353,7 @@ footer{
 #loginPage{
   display: flex;
   padding-left: 100px;
- 
+
 }
 
 #loginPage .container1Log,
@@ -374,7 +374,7 @@ footer{
 }
 
 #loginPage .container1Log h1{
-color: var(--darkBlue);
+  color: var(--darkBlue);
 }
 
 #loginForm{
@@ -404,24 +404,24 @@ color: var(--darkBlue);
   border-color: var(--darkBlue);
 }
 #loginForm a{
-   color: var(--mainYellow);
+  color: var(--mainYellow);
 }
 #loginForm p{
   text-align: center;
   color: var(--darkBlue);
 
-  
+
 }
 #loginForm button{
   border-style: none;
   width: 500px;
   padding: 7px;
   margin-bottom: 7px ;
-  background: var(--mainBlue);                          
-  border-radius: 5px;                                   
-  font-weight: bold;                                    
+  background: var(--mainBlue);
+  border-radius: 5px;
+  font-weight: bold;
   color: var(--white);
-  margin-top: 10px;                                     
+  margin-top: 10px;
   box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
 }
 

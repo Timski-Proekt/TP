@@ -5,26 +5,29 @@ import { MDBContainer, MDBInput, MDBBtn} from "mdb-react-ui-kit";
 import LoginImg from "../../img/img.png"
 
 
-function LoginForm({setUserEmail}) {
+function LoginForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] =useState('');
     const [error, setError] = useState('');
     const history = useNavigate();
 
-    const handleLogin = async () =>{
+    const handleLogin = async () => {
         try {
-            if(!email || !password){
-                setError('Внеси е-маил и лозинка!')
+            if (!email || !password) {
+                setError('Внеси е-маил и лозинка!');
                 return;
             }
-            const response = await axios.post('http://localhost:8081/api/auth/login',{email,password});
+            const response = await axios.post('http://localhost:8080/api/auth/login', { email, password });
             console.log('Login successful:', response.data);
-            setUserEmail(email);
-            history('/home')
 
-        }catch (error) {
+            // Store the token in localStorage
+            localStorage.setItem('token', response.data.accessToken);
+
+
+            history('/home');
+        } catch (error) {
             console.error('Login failed:', error.response ? error.response.data : error.message);
-            setError('Погрешен е-маил или лозинка.')
+            setError('Погрешен е-маил или лозинка.');
         }
     };
 
@@ -34,6 +37,7 @@ function LoginForm({setUserEmail}) {
             <div className="container1Log">
                 <div className="titleLog">
                     <h1>Форма за најава</h1>
+                    {error && <p className="text-danger">{error}</p>}
                 </div>
 
                 <MDBContainer id="loginForm">
@@ -41,22 +45,22 @@ function LoginForm({setUserEmail}) {
                     <div>
                         <label>Електронска пошта</label>
                         <MDBInput className="inputField" wrapperClass='mb-4' id="email" value={email} type="email"
-                              onChange={(e) => setEmail((e.target.value))}/>
+                                  onChange={(e) => setEmail((e.target.value))}/>
                     </div>
                     <div>
                         <label>Лозинка</label>
                         <MDBInput className="inputField" wrapperClass='mb-4' id="password" value={password} type="password"
-                              onChange={(e) => setPassword((e.target.value))}/>
+                                  onChange={(e) => setPassword((e.target.value))}/>
                     </div>
                     <div>
-                    <p><a className="forgottenPassLink" href="#">Ја заборави лозинката?</a></p>
+                        <p><a className="forgottenPassLink" href="#">Ја заборави лозинката?</a></p>
                     </div>
                     <button onClick={handleLogin}>Најави се</button>
                     <p>Немаш профил? <a href="/registration">Креирај тука</a></p>
                 </MDBContainer>
             </div>
             <div className="container2Log">
-                    <img src={LoginImg} alt="login page" width="550px"/>
+                <img src={LoginImg} alt="login page" width="550px"/>
             </div>
         </div>
     );
