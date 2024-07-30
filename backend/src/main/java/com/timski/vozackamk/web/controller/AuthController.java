@@ -1,5 +1,6 @@
 package com.timski.vozackamk.web.controller;
 
+import com.timski.vozackamk.model.AppUser;
 import com.timski.vozackamk.model.dto.AuthResponseDto;
 import com.timski.vozackamk.model.dto.LoginAppUserDto;
 import com.timski.vozackamk.model.dto.RegistrationAppUserDto;
@@ -58,9 +59,11 @@ public class AuthController {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginDto.getEmail(), loginDto.getPassword()));
 
+        AppUser appUser = appUserService.findByEmail(loginDto.getEmail());
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtGenerator.generateToken(authentication);
-        return new ResponseEntity<>(new AuthResponseDto(token), HttpStatus.OK);
+        return new ResponseEntity<>(new AuthResponseDto(token, appUser.getEmbg()), HttpStatus.OK);
     }
 
     @PostMapping("/logout")

@@ -46,6 +46,16 @@ public class AppUserServiceImplementation implements AppUserService {
     }
 
     @Override
+    public AppUser findByEmail(String email) {
+        try {
+            return appUserRepository.findByEmail(email).orElseThrow(() -> new AppUserNotFoundException(email));
+        } catch (AppUserNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Override
     public void register(RegistrationAppUserDto appUserDto) throws AppUserExistsException, DrivingSchoolNotFoundException {
         if (appUserRepository.findById(appUserDto.getEmbg()).isPresent()) {
             throw new AppUserExistsException(appUserDto.getEmbg());

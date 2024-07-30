@@ -8,4 +8,5 @@ public class AppUserNotFoundException extends Exception{
     public AppUserNotFoundException(String embg) {
         super(String.format("User with embg: %s not found.", embg));
     }
+
 }

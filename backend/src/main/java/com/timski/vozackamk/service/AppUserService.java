@@ -15,6 +15,8 @@ import java.util.UUID;
 public interface  AppUserService {
     List<AppUser> findAll();
     AppUser findById(String embg);
+    AppUser findByEmail(String email);
+
 
     void register(RegistrationAppUserDto appUserDto) throws AppUserExistsException, DrivingSchoolNotFoundException;
     void login(LoginAppUserDto appUserDto);
