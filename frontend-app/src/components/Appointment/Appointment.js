@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import TypeSelection from '../Appointment/Selections/TypeSelection';
 import CategorySelection from '../Appointment/Selections/CategorySelection';
 import TimeSelection from '../Appointment/Selections/TimeSelection';
 import LocationSelection from "./Selections/LocationSelection";
 
-function Appointment(){
+function Appointment() {
     const [selectedAppointment, setSelectedAppointment] = useState({
         date: null,
         type: null,
@@ -18,42 +18,53 @@ function Appointment(){
         location: null,
         appointmentId: null
     });
+    const [allAppointments, setAllAppointments] = useState([]);
     const [availableAppointments, setAvailableAppointments] = useState([]);
-
     const history = useNavigate();
 
     useEffect(() => {
-        console.log(selectedAppointment);
+        console.log("Selected Appointment:", selectedAppointment);
+    }, [selectedAppointment]);
+
+    useEffect(() => {
         const fetchAppointments = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/appointments');
-                const allAppointments = response.data;
+                const token = localStorage.getItem('token');
 
-                const filteredAppointments = filterAppointments(allAppointments);
-                const availableTimeSlotAppointments = filteredAppointments.map(appointment =>
-                    createAppointmentTimeSlotObject(appointment)
-                );
+                const config = {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                };
 
-                setAvailableAppointments(availableTimeSlotAppointments);
+                const response = await axios.get('http://localhost:8080/appointments', config);
+                setAllAppointments(response.data);
+                console.log("All appointments:", response.data);
             } catch (error) {
                 console.error('Error fetching appointments:', error);
             }
         };
         fetchAppointments();
-    }, [selectedAppointment]);
+    }, []);
+
+    useEffect(() => {
+        const filteredAppointments = filterAppointments(allAppointments);
+        console.log("Filtered appointments", filteredAppointments);
+        const availableTimeSlotAppointments = filteredAppointments.map(appointment =>
+            createAppointmentTimeSlotObject(appointment)
+        );
+        setAvailableAppointments(availableTimeSlotAppointments);
+        console.log("Available appointments", availableTimeSlotAppointments);
+    }, [selectedAppointment, allAppointments]);
 
     const filterAppointments = (allAppointments) => {
         return allAppointments.filter(appointment => {
-            if (selectedAppointment.date && selectedAppointment.type && selectedAppointment.location
-                && selectedAppointment.category && !appointment.isBooked) {
-                return (
-                    appointment.location.name === selectedAppointment.location &&
-                    appointment.location.appointmentType === selectedAppointment.type &&
-                    appointment.category === selectedAppointment.category &&
-                    appointment.dateTime.substring(0, 10) === selectedAppointment.date.substring(0, 10)
-                );
-            }
-            return false;
+            const matchesDate = !selectedAppointment.date || appointment.dateTime.substring(0, 10) === selectedAppointment.date;
+            const matchesType = !selectedAppointment.type || appointment.location.appointmentType === selectedAppointment.type;
+            const matchesLocation = !selectedAppointment.location || appointment.location.name === selectedAppointment.location;
+            const matchesCategory = !selectedAppointment.category || appointment.category === selectedAppointment.category;
+
+            return matchesDate && matchesType && matchesLocation && matchesCategory && !appointment.isBooked;
         });
     };
 
@@ -126,7 +137,12 @@ function Appointment(){
         history(`/payment?${queryString}`);
     }
 
-    return(
+    const isInfoComplete = () => {
+        return selectedAppointment.date && selectedAppointment.type
+            && selectedAppointment.category && selectedAppointment.location;
+    };
+
+    return (
         <div className="div-container text">
             <h1>Закажи термин за полагање</h1>
             <section>
@@ -141,21 +157,23 @@ function Appointment(){
                 <div className="column right-column">
                     <div className="bubble-container ">
                         <p><b>Тип на полагање: </b></p>
-                        <TypeSelection onSelectType={handleSelectType}/><br/>
+                        <TypeSelection onSelectType={handleSelectType} /><br />
                     </div>
                     <div className="bubble-container ">
                         <p><b>Локација: </b></p>
-                        <LocationSelection onSelectLocation={handleLocationChange} /><br/>
+                        <LocationSelection onSelectLocation={handleLocationChange} /><br />
                     </div>
                     <div className="bubble-container">
                         <p><b>Категорија на полагање: </b></p>
-                        <CategorySelection onSelectCategory={handleSelectCategory} /><br/>
+                        <CategorySelection onSelectCategory={handleSelectCategory} /><br />
                     </div>
                     <div className="bubble-container">
                         <p><b>Време на полагање: </b></p>
-                        <TimeSelection
-                            availableAppointments = {availableAppointments}
-                            onSelectTime={handleSelectTime} />
+                        {isInfoComplete() && (
+                            <TimeSelection
+                                availableAppointments={availableAppointments}
+                                onSelectTime={handleSelectTime} />
+                        )}
                     </div>
                     <div>
                         <a onClick={handleSubmit} className="button">Избери термин</a>

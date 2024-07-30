@@ -10,6 +10,7 @@ import com.timski.vozackamk.service.AppointmentService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -41,6 +42,11 @@ public class AppointmentController {
     @PostMapping
     public void addAppointment(@RequestBody AppointmentDto appointmentDto) {
         appointmentService.save(appointmentDto);
+    }
+
+    @PutMapping("/booked")
+    public void bookingAppointment(@RequestParam UUID appointmentId, @RequestParam String embg) {
+        appointmentService.book(appointmentId, embg);
     }
 
     @PostMapping("/pick-appointment")

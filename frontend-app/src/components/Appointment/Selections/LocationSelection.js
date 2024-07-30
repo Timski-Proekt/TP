@@ -9,7 +9,15 @@ function LocationComponent({ onSelectLocation}) {
 
     const fetchLocations = async () => {
         try {
-            const response = await fetch('http://localhost:8080/locations');
+            const token = localStorage.getItem('token');
+            console.log(token);
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+
+            const response = await fetch('http://localhost:8080/locations', config);
             const data = await response.json();
             setLocations(data);
         } catch (error) {

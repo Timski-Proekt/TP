@@ -30,13 +30,16 @@ public class AppointmentServiceImplementation implements AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final TransactionRepository transactionRepository;
     private final AppUserRepository appUserRepository;
+    private final LocationRepository locationRepository;
 
-    public AppointmentServiceImplementation(LocationService locationService, AppUserService appUserService, AppointmentRepository appointmentRepository, TransactionRepository transactionRepository, AppUserRepository appUserRepository) {
+    public AppointmentServiceImplementation(LocationService locationService, AppUserService appUserService, AppointmentRepository appointmentRepository, TransactionRepository transactionRepository, AppUserRepository appUserRepository,
+                                            LocationRepository locationRepository) {
         this.locationService = locationService;
         this.appUserService = appUserService;
         this.appointmentRepository = appointmentRepository;
         this.transactionRepository = transactionRepository;
         this.appUserRepository = appUserRepository;
+        this.locationRepository = locationRepository;
     }
 
 
@@ -61,6 +64,15 @@ public class AppointmentServiceImplementation implements AppointmentService {
                 appointmentDto.getDateTime(),
                 location
         );
+        appointmentRepository.save(appointment);
+    }
+
+    @Override
+    public void book(UUID uuid, String embg) {
+        Appointment appointment = findById(uuid);
+        AppUser user = appUserService.findById(embg);
+        appointment.setIsBooked(true);
+        appointment.setUser(user);
         appointmentRepository.save(appointment);
     }
 

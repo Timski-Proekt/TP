@@ -22,6 +22,8 @@ public interface AppointmentService {
     // Basic CRUD
     void save(AppointmentDto appointmentDto);
 
+    void book(UUID uuid, String embg);
+
     void delete(UUID uuid);
 
     void update(UUID uuid, AppointmentDto appointmentDto);

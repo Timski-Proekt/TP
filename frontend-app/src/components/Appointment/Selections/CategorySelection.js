@@ -11,7 +11,14 @@ function CategorySelection({ onSelectCategory }) {
 
     const fetchCategories = async () => {
         try {
-            const response = await fetch('http://localhost:3000/appointments/categories');
+            const token = localStorage.getItem('token');
+
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            const response = await fetch('http://localhost:8080/appointments/categories',config);
             const data = await response.json();
 
             const transformedCategories = data.map((category) => ({
