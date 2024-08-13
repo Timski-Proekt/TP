@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from "axios";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +7,8 @@ import TypeSelection from '../Appointment/Selections/TypeSelection';
 import CategorySelection from '../Appointment/Selections/CategorySelection';
 import TimeSelection from '../Appointment/Selections/TimeSelection';
 import LocationSelection from "./Selections/LocationSelection";
+import Modal from "../Modal/Modal";
+import {fetchAppointments} from "../Services/AxiosServices";
 
 function Appointment() {
     const [selectedAppointment, setSelectedAppointment] = useState({
@@ -20,6 +21,9 @@ function Appointment() {
     });
     const [allAppointments, setAllAppointments] = useState([]);
     const [availableAppointments, setAvailableAppointments] = useState([]);
+    const [modalAppear, setModalAppear] = useState(true);
+    const [loading, setLoading] = useState(true);
+    const [isDataCleared, setIsDataCleared] = useState(false);
     const history = useNavigate();
 
     useEffect(() => {
@@ -27,24 +31,19 @@ function Appointment() {
     }, [selectedAppointment]);
 
     useEffect(() => {
-        const fetchAppointments = async () => {
+        const fetchData = async () => {
             try {
-                const token = localStorage.getItem('token');
+                const appointmentsData = await fetchAppointments();
+                setAllAppointments(appointmentsData);
 
-                const config = {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                };
-
-                const response = await axios.get('http://localhost:8080/appointments', config);
-                setAllAppointments(response.data);
-                console.log("All appointments:", response.data);
+                setModalAppear(false);
             } catch (error) {
                 console.error('Error fetching appointments:', error);
+            } finally {
+                setLoading(false);
             }
         };
-        fetchAppointments();
+        fetchData();
     }, []);
 
     useEffect(() => {
@@ -96,6 +95,7 @@ function Appointment() {
             location: null,
             appointmentId: null
         });
+        setIsDataCleared(true);
     };
 
     const handleSelectType = (newType) => {
@@ -103,6 +103,7 @@ function Appointment() {
             ...prevState,
             type: newType
         }));
+        setIsDataCleared(false);
     };
 
     const handleSelectCategory = (newCategory) => {
@@ -110,6 +111,7 @@ function Appointment() {
             ...prevState,
             category: newCategory
         }));
+        setIsDataCleared(false);
     };
 
     const handleLocationChange = (newLocation) => {
@@ -142,30 +144,34 @@ function Appointment() {
             && selectedAppointment.category && selectedAppointment.location;
     };
 
+    if (loading) {
+        return <></>;
+    }
+
     return (
         <div className="div-container text">
+            <Modal show={modalAppear}/>
             <h1>Закажи термин за полагање</h1>
             <section>
                 <p>Избери датум и пополни ги полињата за полагањето што сакаш да го закажеш</p>
-                <div className="column left-column calendar-container">
+                <div className="calendar-container">
                     <Calendar
                         value={selectedAppointment.date ? new Date(selectedAppointment.date) : null}
                         onClickDay={handleDateChange}
-                        style={{ boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', borderRadius: '8px', padding: '20px' }}
                     />
                 </div>
                 <div className="column right-column">
                     <div className="bubble-container ">
                         <p><b>Тип на полагање: </b></p>
-                        <TypeSelection onSelectType={handleSelectType} /><br />
+                        <TypeSelection onSelectType={handleSelectType} isCleared={isDataCleared}/><br />
                     </div>
                     <div className="bubble-container ">
                         <p><b>Локација: </b></p>
-                        <LocationSelection onSelectLocation={handleLocationChange} /><br />
+                        <LocationSelection onSelectLocation={handleLocationChange} isCleared={isDataCleared}/><br />
                     </div>
                     <div className="bubble-container">
                         <p><b>Категорија на полагање: </b></p>
-                        <CategorySelection onSelectCategory={handleSelectCategory} /><br />
+                        <CategorySelection onSelectCategory={handleSelectCategory} isCleared={isDataCleared}/><br />
                     </div>
                     <div className="bubble-container">
                         <p><b>Време на полагање: </b></p>

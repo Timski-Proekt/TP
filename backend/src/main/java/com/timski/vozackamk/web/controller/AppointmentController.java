@@ -1,6 +1,6 @@
 package com.timski.vozackamk.web.controller;
 
-
+import com.timski.vozackamk.model.AppUser;
 import com.timski.vozackamk.model.Appointment;
 import com.timski.vozackamk.model.Category;
 import com.timski.vozackamk.model.dto.AppointmentDto;
@@ -30,8 +30,8 @@ public class AppointmentController {
         return appointmentService.findAll();
     }
 
-    @GetMapping("/{embg}")
-    public List<Appointment> getAllAppointmentsByAppUser(@PathVariable String embg) {
+    @GetMapping("/byEmbg")
+    public List<Appointment> getAllAppointmentsByAppUser(@RequestParam String embg) {
         return appointmentService.findAllAppointmentsByAppUser(embg);
     }
     @GetMapping("/categories")

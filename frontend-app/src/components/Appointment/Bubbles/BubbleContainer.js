@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 
 function Bubble({ id, label, onClick, isSelected }) {
     return (
@@ -13,8 +13,14 @@ function Bubble({ id, label, onClick, isSelected }) {
     );
 }
 
-function BubbleContainer({ options, onSelect }) {
+function BubbleContainer({ options, onSelect, isCleared }) {
     const [selectedBubbleId, setSelectedBubbleId] = useState(null);
+
+    useEffect(() => {
+        if (isCleared) {
+            setSelectedBubbleId(null);
+        }
+    }, [isCleared]);
 
     const handleBubbleClick = (id) => {
         setSelectedBubbleId(id);

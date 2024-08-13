@@ -13,13 +13,14 @@ import java.util.Date;
 @Component
 public class JWTGenerator {
 
-    public String generateToken(Authentication authentication) {
+    public String generateToken(Authentication authentication, String embg) {
         String email = authentication.getName();
         Date currentDate = new Date();
         Date expireDate = new Date(currentDate.getTime() + SecurityConstants.EXPIRATION_TIME);
 
         return Jwts.builder()
                 .setSubject(email)
+                .claim("embg", embg)
                 .setIssuedAt(new Date())
                 .setExpiration(expireDate)
                 .signWith(SignatureAlgorithm.HS512, SecurityConstants.JWT_SECRET)
@@ -32,6 +33,14 @@ public class JWTGenerator {
                 .parseClaimsJws(token)
                 .getBody();
         return claims.getSubject();
+    }
+
+    public String getEmbGFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(SecurityConstants.JWT_SECRET)
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get("embg", String.class);
     }
 
     public boolean validateToken(String token) {

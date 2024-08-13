@@ -1,8 +1,7 @@
-// In TypeSelection.js
 import React from 'react';
 import BubbleContainer from '../Bubbles/BubbleContainer';
 
-function TypeSelection({ onSelectType }) {
+function TypeSelection({ onSelectType, isCleared }) {
     const types = [
         { id: "TEORIJA", label: "ТЕОРИЈА" },
         { id: "POLIGON", label: "ПОЛИГОН" },
@@ -13,7 +12,7 @@ function TypeSelection({ onSelectType }) {
         onSelectType(type);
     };
 
-    return <BubbleContainer options={types} onSelect={handleSelectType} />;
+    return <BubbleContainer options={types} onSelect={handleSelectType} isCleared={isCleared}/>;
 }
 
 export default TypeSelection;

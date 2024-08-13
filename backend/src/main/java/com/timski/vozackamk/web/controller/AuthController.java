@@ -62,8 +62,8 @@ public class AuthController {
         AppUser appUser = appUserService.findByEmail(loginDto.getEmail());
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtGenerator.generateToken(authentication);
-        return new ResponseEntity<>(new AuthResponseDto(token, appUser.getEmbg()), HttpStatus.OK);
+        String token = jwtGenerator.generateToken(authentication, appUser.getEmbg());
+        return new ResponseEntity<>(new AuthResponseDto(token), HttpStatus.OK);
     }
 
     @PostMapping("/logout")

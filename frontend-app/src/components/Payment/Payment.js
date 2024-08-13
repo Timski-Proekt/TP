@@ -1,26 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import axios from "axios";
-import { jwtDecode } from 'jwt-decode';
-import PaymentForm from './PaymentForm';
-import AppointmentInfo from './AppointmentInfo';
+import PaymentInfo from './PaymentInfo';
+import { fetchUserInfo } from '../Services/AxiosServices';
+import { bookAppointment, createCheckoutSession, redirectToStripeCheckout } from '../Services/StripeServices';
+import {jwtDecode} from "jwt-decode";
 
 function Payment() {
     const [amount, setAmount] = useState(0);
     const [userInfo, setUserInfo] = useState(null);
-    const [formData, setFormData] = useState({
-        name: '',
-        cardNumber: '',
-        expiryDate: '',
-        ccv: ''
-    });
     const [appointmentData, setAppointmentData] = useState({
-        date: "",
-        type: "",
-        location: "",
-        time: "",
-        category: "",
-        appointmentId: ""
+        date: '',
+        type: '',
+        location: '',
+        time: '',
+        category: '',
+        appointmentId: '',
     });
     const location = useLocation();
 
@@ -44,58 +38,54 @@ function Payment() {
     }, [location.search]);
 
     useEffect(() => {
-        const fetchUserInfo = async () => {
+        const fetchData = async () => {
             try {
-                const token = localStorage.getItem('token');
-                const config = {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                };
-                const response = await axios.get('http://localhost:8080/user', config);
-                setUserInfo(response.data);
-                console.log('User Info:', response.data);
+                const userData = await fetchUserInfo();
+                setUserInfo(userData);
             } catch (error) {
                 console.error('Error fetching user info:', error);
             }
         };
 
-        fetchUserInfo();
+        fetchData();
     }, []);
 
-    const handleFormChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
+    const handlePayment = async () => {
+        try {
+            const { appointmentId } = appointmentData;
+            const token = localStorage.getItem('token');
 
-    const handleFormSubmit = (e) => {
-        e.preventDefault();
-        console.log('Form submitted:', formData);
-        setFormData({
-            name: '',
-            cardNumber: '',
-            expiryDate: '',
-            ccv: ''
-        });
-    };
+            if (!token) {
+                throw new Error('No token found');
+            }
 
-    function getEmbgFromToken(token) {
-        const decodedToken = jwtDecode(token);
-        return decodedToken.embg;
-    }
+            const decodedToken = jwtDecode(token);
+            const embg = decodedToken.embg;
+
+            await bookAppointment(appointmentId, embg);
+            const session = await createCheckoutSession();
+            await redirectToStripeCheckout(session.id);
+        } catch (error) {
+            console.error('Error during payment process:', error);
+        }
+    };
 
     return (
         <div className="div-container text">
             <h1>Форма за плаќање</h1>
-            <hr/>
-            <section style={{padding: "30px 0px"}}>
-                <PaymentForm
-                    formData={formData}
-                    amount={amount}
-                    onChange={handleFormChange}
-                    onSubmit={handleFormSubmit}
-                />
-                <AppointmentInfo appointmentData={appointmentData} />
+            <hr />
+            <section style={{ padding: '30px 0px' }}>
+                <div className="card" style={{ width: '1000px' }}>
+                    <PaymentInfo appointmentData={appointmentData} userInfo={userInfo} />
+                    <br />
+                    <p>
+                        Сума за наплата: <b>{amount} денари</b>
+                    </p>
+                    <br />
+                    <button type="button" id="payment-button" onClick={handlePayment}>
+                        Извршете наплата
+                    </button>
+                </div>
             </section>
         </div>
     );

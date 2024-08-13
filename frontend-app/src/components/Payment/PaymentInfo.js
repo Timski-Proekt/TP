@@ -1,22 +1,18 @@
 import React from 'react';
 
-const AppointmentInfo = ({ appointmentData }) => {
+const PaymentInfo = ({ appointmentData, userInfo }) => {
     return (
-        <div id="info" className="column right-column">
+        <div id="info">
             <h5><b>Информации за полагањето:</b></h5>
             <div className="info-columns">
                 <div className="payment-info-column">
                     <div className="payment-info-container">
                         <p><b>Име и презиме: </b></p>
-                        <p>Ime i prezime</p>
+                        <p>{userInfo?.name} {userInfo?.lastName}</p>
                     </div>
                     <div className="payment-info-container">
                         <p><b>Емаил: </b></p>
-                        <p>Email</p>
-                    </div>
-                    <div className="payment-info-container">
-                        <p><b>Код на полагање: </b></p>
-                        <p>{appointmentData.appointmentId}</p>
+                        <p>{userInfo?.email}</p>
                     </div>
                 </div>
                 <div className="payment-info-column">
@@ -24,6 +20,12 @@ const AppointmentInfo = ({ appointmentData }) => {
                         <p><b>Тип на полагање: </b></p>
                         <p>{appointmentData.type}</p>
                     </div>
+                    <div className="payment-info-container">
+                        <p><b>Код на полагање: </b></p>
+                        <p>{appointmentData.appointmentId}</p>
+                    </div>
+                </div>
+                <div className="payment-info-column">
                     <div className="payment-info-container">
                         <p><b>Категорија: </b></p>
                         <p>{appointmentData.category}</p>
@@ -48,4 +50,4 @@ const AppointmentInfo = ({ appointmentData }) => {
     );
 };
 
-export default AppointmentInfo;
+export default PaymentInfo;

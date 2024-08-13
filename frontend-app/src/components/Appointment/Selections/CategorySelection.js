@@ -1,8 +1,7 @@
-// In CategorySelection.js
 import React, { useState, useEffect } from 'react';
 import BubbleContainer from '../Bubbles/BubbleContainer';
 
-function CategorySelection({ onSelectCategory }) {
+function CategorySelection({ onSelectCategory, isCleared }) {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
@@ -38,7 +37,7 @@ function CategorySelection({ onSelectCategory }) {
         onSelectCategory(categoryLabel);
     };
 
-    return <BubbleContainer options={categories} onSelect={handleSelectCategory} />;
+    return <BubbleContainer options={categories} onSelect={handleSelectCategory} isCleared={isCleared}/>;
 }
 
 export default CategorySelection;

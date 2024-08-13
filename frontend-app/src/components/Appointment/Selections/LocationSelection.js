@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from 'react';
 
-function LocationComponent({ onSelectLocation}) {
+function LocationComponent({ onSelectLocation, isCleared }) {
     const [locations, setLocations] = useState([]);
+    const [selectedLocation, setSelectedLocation] = useState('');
 
     useEffect(() => {
         fetchLocations();
     }, []);
+
+    useEffect(() => {
+        if (isCleared) {
+            setSelectedLocation('');
+            onSelectLocation('');
+        }
+    }, [isCleared]);
 
     const fetchLocations = async () => {
         try {
@@ -28,11 +36,12 @@ function LocationComponent({ onSelectLocation}) {
     const handleLocationChange = (event) => {
         const selectedLocation = event.target.value;
         onSelectLocation(selectedLocation);
+        setSelectedLocation(selectedLocation);
     };
 
     return (
         <div style={{ margin: '15px' }}>
-            <select onChange={handleLocationChange}>
+            <select value={selectedLocation} onChange={handleLocationChange}>
                 <option value="">Избери</option>
                 {locations.map((location, index) => (
                     <option key={index} value={location.name}>
